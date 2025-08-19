@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md. Almansur Siddiqui - Senior Software Engineer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --accent-primary: #00ff88;
+            --accent-secondary: #00d4ff;
+            --accent-tertiary: #ff6b6b;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --text-muted: #666666;
+            --border-color: #333333;
+            --shadow-color: rgba(0, 255, 136, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Terminal-style elements */
+        .terminal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-header {
+            background: var(--bg-tertiary);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-button.close {
+            background: #ff5f57;
+        }
+
+        .terminal-button.minimize {
+            background: #ffbd2e;
+        }
+
+        .terminal-button.maximize {
+            background: #28ca42;
+        }
+
+        .terminal-title {
+            margin-left: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Matrix-style background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: var(--accent-primary);
+            opacity: 0.1;
+            animation: matrix-fall linear infinite;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: slideInLeft 1s ease-out 0.5s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideInLeft 1s ease-out 0.8s forwards;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: slideInLeft 1s ease-out 1.1s forwards;
+        }
+
+        .hero-terminal {
+            opacity: 0;
+            animation: slideInRight 1s ease-out 0.5s forwards;
+        }
+
+        .terminal-content {
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-primary);
+            margin-right: 10px;
+        }
+
+        .terminal-command {
+            color: var(--accent-secondary);
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            margin-left: 20px;
+        }
+
+        .terminal-cursor {
+            width: 2px;
+            height: 20px;
+            background: var(--accent-primary);
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--shadow-color);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--shadow-color);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .skill-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .skill-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--shadow-color);
+            transform: translateY(-10px);
+        }
+
+        .project-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-primary);
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 2rem;
+            width: 15px;
+            height: 15px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 10px var(--shadow-color);
+        }
+
+        .experience-item:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--shadow-color);
+        }
+
+        .experience-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-company {
+            color: var(--accent-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: rgba(26, 26, 26, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--shadow-color);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            word-break: break-all;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        /* Animations */
+        @keyframes matrix-fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--shadow-color);
+            }
+
+            50% {
+                box-shadow: 0 0 40px var(--shadow-color);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+            z-index: 1000;
+        }
+
+        .scroll-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav {
+                position: relative;
+                top: auto;
+                right: auto;
+                justify-content: center;
+                margin-bottom: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Code block styling */
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-line {
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .code-keyword {
+            color: var(--accent-tertiary);
+        }
+
+        .code-string {
+            color: var(--accent-secondary);
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="matrix-bg" id="matrixBg"></div>
+
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <nav class="nav">
+        <a href="#home" class="nav-item">Home</a>
+        <a href="#skills" class="nav-item">Skills</a>
+        <a href="#projects" class="nav-item">Projects</a>
+        <a href="#contact" class="nav-item">Contact</a>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <h1>Md. Almansur Siddiqui</h1>
+                <p class="hero-subtitle">Senior Software Engineer & AI Architect</p>
+                <p class="hero-description">
+                    Crafting intelligent systems with 10+ years of expertise in Full-Stack Development,
+                    AI/ML Engineering, and Cloud Architecture. Specializing in cutting-edge solutions
+                    that transform business challenges into scalable innovations.
+                </p>
+                <div class="btn-group">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-terminal">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <div class="terminal-button close"></div>
+                            <div class="terminal-button minimize"></div>
+                            <div class="terminal-button maximize"></div>
+                        </div>
+                        <div class="terminal-title">almansur@dev:~$</div>
+                    </div>
+                    <div class="terminal-content">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">whoami</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Senior Software Engineer</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">cat experience.txt</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">9+ years | 30+ applications | AI/ML Expert</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">ls skills/</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">AI_ML/ Cloud/ FullStack/ WebRTC/</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">git status</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Ready for next challenge</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-cursor"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Apps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Major Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">05+</div>
+                    <div class="stat-label">AI Certifications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title">Core Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🤖</div>
+                    <h3 class="skill-title">AI & Machine Learning</h3>
+                    <p class="skill-description">
+                        RAG Systems, Vector Databases, NLP, OpenAI/Anthropic Integration,
+                        AWS Bedrock, Semantic Search, Model Training & Optimization
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-keyword">import</span> <span class="code-string">{
+                                OpenAI, Anthropic }</span> <span class="code-keyword">from</span> <span
+                                class="code-string">'ai-sdk'</span></div>
+                        <div class="code-line"><span class="code-keyword">const</span> rag = <span
+                                class="code-keyword">new</span> <span class="code-string">RAGSystem</span>(vectorDB)
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">☁️</div>
+                    <h3 class="skill-title">Cloud Architecture</h3>
+                    <p class="skill-description">
+                        AWS Services, Docker, CI/CD, Lambda, EC2, Serverless Architecture,
+                        Infrastructure as Code, Microservices, Auto-scaling
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment">// Serverless deployment</span></div>
+                        <div class="code-line"><span class="code-keyword">export</span> <span
+                                class="code-keyword">const</span> handler = <span class="code-keyword">async</span>
+                            (event) => {</div>
+                        <div class="code-line"> <span class="code-keyword">return</span> <span
+                                class="code-keyword">await</span> processRequest(event)</div>
+                        <div class="code-line">}</div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3 class="skill-title">Full-Stack Development</h3>
+                    <p class="skill-description">
+                        React, Node.js, TypeScript, Next.js, NestJS, FastAPI, PostgreSQL, MongoDB, Redis,
+                        RESTful APIs, GraphQL, Real-time Applications
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-keyword">interface</span> <span
+                                class="code-string">APIResponse</span>&lt;T&gt; {</div>
+                        <div class="code-line"> data: <span class="code-string">T</span>[], status: <span
+                                class="code-string">'success'</span></div>
+                        <div class="code-line">}</div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">📡</div>
+                    <h3 class="skill-title">Real-Time Systems</h3>
+                    <p class="skill-description">
+                        WebRTC, Video Streaming, OTT Platforms, Real-time Translation,
+                        Socket.io, Media Processing, Live Communications
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-keyword">const</span> peer = <span
+                                class="code-keyword">new</span> <span class="code-string">RTCPeerConnection</span>()
+                        </div>
+                        <div class="code-line">peer.<span class="code-string">addStream</span>(localStream)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Specialized Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🎬</div>
+                    <h3 class="skill-title">Media Processing & Streaming</h3>
+                    <p class="skill-description">
+                        FFmpeg, MediaSoup, Kurento Media Server, Video Codecs (H.264, VP8, VP9),
+                        Audio/Video Processing, Live Streaming, OTT Platform Development
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment">// Media processing pipeline</span></div>
+                        <div class="code-line"><span class="code-keyword">const</span> mediaServer = <span class="code-keyword">new</span> <span class="code-string">MediaSoup</span>({</div>
+                        <div class="code-line"> codecs: [<span class="code-string">'VP8'</span>, <span class="code-string">'H264'</span>],</div>
+                        <div class="code-line"> transports: [<span class="code-string">'WebRTC'</span>, <span class="code-string">'PlainRTP'</span>]</div>
+                        <div class="code-line">})</div>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🔌</div>
+                    <h3 class="skill-title">Real-Time Communication</h3>
+                    <p class="skill-description">
+                        WebRTC, WebSocket, Socket.io, Peer-to-Peer Communication, 
+                        Real-time Translation, Live Chat, Video Conferencing, Telemedicine
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment">// WebSocket server setup</span></div>
+                        <div class="code-line"><span class="code-keyword">const</span> io = <span class="code-keyword">require</span>(<span class="code-string">'socket.io'</span>)</div>
+                        <div class="code-line">io.<span class="code-string">on</span>(<span class="code-string">'connection'</span>, (socket) => {</div>
+                        <div class="code-line"> socket.<span class="code-string">on</span>(<span class="code-string">'message'</span>, handleMessage)</div>
+                        <div class="code-line">})</div>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🐳</div>
+                    <h3 class="skill-title">DevOps & Infrastructure</h3>
+                    <p class="skill-description">
+                        Docker, CI/CD, AWS Services (EC2, Lambda, RDS, ElastiCache), 
+                        Nginx, HAProxy, Load Balancing, Auto-scaling, Infrastructure as Code
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment"># Docker deployment</span></div>
+                        <div class="code-line"><span class="code-keyword">FROM</span> <span class="code-string">node:18-alpine</span></div>
+                        <div class="code-line"><span class="code-keyword">COPY</span> package*.json ./</div>
+                        <div class="code-line"><span class="code-keyword">RUN</span> npm ci --only=production</div>
+                        <div class="code-line"><span class="code-keyword">EXPOSE</span> <span class="code-string">3000</span></div>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🌐</div>
+                    <h3 class="skill-title">Database & Caching</h3>
+                    <p class="skill-description">
+                        PostgreSQL, MySQL, MongoDB, Redis, Vector Databases, 
+                        Database Design, Query Optimization, Caching Strategies
+                    </p>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment">// Redis caching layer</span></div>
+                        <div class="code-line"><span class="code-keyword">const</span> cache = <span class="code-keyword">await</span> redis.<span class="code-string">get</span>(key)</div>
+                        <div class="code-line"><span class="code-keyword">if</span> (!cache) {</div>
+                        <div class="code-line"> <span class="code-keyword">const</span> data = <span class="code-keyword">await</span> db.<span class="code-string">query</span>(sql)</div>
+                        <div class="code-line"> <span class="code-keyword">await</span> redis.<span class="code-string">setex</span>(key, 3600, data)</div>
+                        <div class="code-line">}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">AI Article Relevancy Engine</h3>
+                        <p class="project-subtitle">Advanced ML System with AWS Bedrock</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Sophisticated machine learning system using multi-modal scoring, semantic analysis, and
+                            vector embeddings for automated content relevancy assessment.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">AWS Bedrock</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">Vector DB</span>
+                            <span class="tech-tag">Scikit-learn</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-comment"># Multi-modal scoring engine</span></div>
+                            <div class="code-line"><span class="code-keyword">class</span> <span
+                                    class="code-string">RelevancyScorer</span>:</div>
+                            <div class="code-line"> <span class="code-keyword">def</span> <span
+                                    class="code-string">score</span>(article, skill):</div>
+                            <div class="code-line"> <span class="code-keyword">return</span> weighted_ensemble(</div>
+                            <div class="code-line"> embedding_sim, semantic_analysis</div>
+                            <div class="code-line"> )</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">AI Learning Platform</h3>
+                        <p class="project-subtitle">NestJS Backend with RAG Capabilities</p>
+                    </div>
+                    <div class="project-content">
+                        <p>High-performance API enabling semantic search and RAG question-answering with personalized
+                            curriculum generation over curated startup content.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">NestJS</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Weaviate</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">OpenAI</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-keyword">@Controller</span>(<span
+                                    class="code-string">'search'</span>)</div>
+                            <div class="code-line"><span class="code-keyword">export class</span> <span
+                                    class="code-string">SearchController</span> {</div>
+                            <div class="code-line"> <span class="code-keyword">async</span> <span
+                                    class="code-string">ragSearch</span>(query) {</div>
+                            <div class="code-line"> <span class="code-keyword">return</span> <span
+                                    class="code-keyword">await</span> <span
+                                    class="code-string">this.ai.search</span>(query)</div>
+                            <div class="code-line"> }</div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">AI Customer Panel & RAG System</h3>
+                        <p class="project-subtitle">React Enterprise Application</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Enterprise customer panel with RAG technology, real-time chat interfaces, authentication, and
+                            subscription management.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Material-UI</span>
+                            <span class="tech-tag">Redux</span>
+                            <span class="tech-tag">AWS Cognito</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-keyword">const</span> <span
+                                    class="code-string">ChatInterface</span> = () => {</div>
+                            <div class="code-line"> <span class="code-keyword">const</span> [messages, setMessages] =
+                                <span class="code-string">useState</span>([])
+                            </div>
+                            <div class="code-line"> <span class="code-keyword">return</span> &lt;<span
+                                    class="code-string">AIChat</span> messages={messages} /&gt;</div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Semantic Vector Search Engine</h3>
+                        <p class="project-subtitle">Sub-50ms Response Time</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Lightning-fast search engine with typo tolerance, semantic understanding, and vector
+                            similarity matching for enterprise content discovery.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">GPT-3.5</span>
+                            <span class="tech-tag">Vector DB</span>
+                            <span class="tech-tag">NLP</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-keyword">async function</span> <span
+                                    class="code-string">semanticSearch</span>(query: <span
+                                    class="code-string">string</span>) {</div>
+                            <div class="code-line"> <span class="code-keyword">const</span> embedding = <span
+                                    class="code-keyword">await</span> <span
+                                    class="code-string">generateEmbedding</span>(query)</div>
+                            <div class="code-line"> <span class="code-keyword">return</span> <span
+                                    class="code-keyword">await</span> <span
+                                    class="code-string">vectorDB.search</span>(embedding)</div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">WebRTC Broadcast Platform</h3>
+                        <p class="project-subtitle">Real-time Streaming & Device Control</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Advanced WebRTC solution for broadcasting video streams with HDMI-CEC device control and
+                            cross-platform compatibility.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">WebRTC</span>
+                            <span class="tech-tag">Socket.io</span>
+                            <span class="tech-tag">MediaSoup</span>
+                            <span class="tech-tag">FFmpeg</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-keyword">const</span> <span
+                                    class="code-string">mediaServer</span> = <span class="code-keyword">new</span> <span
+                                    class="code-string">MediaSoup</span>({</div>
+                            <div class="code-line"> codecs: [<span class="code-string">'VP8'</span>, <span
+                                    class="code-string">'H264'</span>],</div>
+                            <div class="code-line"> transports: [<span class="code-string">'WebRTC'</span>, <span
+                                    class="code-string">'PlainRTP'</span>]</div>
+                            <div class="code-line">})</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">AI Fitness Analysis Platform</h3>
+                        <p class="project-subtitle">Electron Desktop Application</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Desktop application connecting with fitness equipment for real-time data collection and
+                            AI-powered health analysis with personalized recommendations.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Electron.js</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">AI/ML</span>
+                            <span class="tech-tag">IoT</span>
+                            <span class="tech-tag">Data Viz</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-keyword">class</span> <span
+                                    class="code-string">FitnessAnalyzer</span> {</div>
+                            <div class="code-line"> <span class="code-keyword">async</span> <span
+                                    class="code-string">analyzePerformance</span>(data) {</div>
+                            <div class="code-line"> <span class="code-keyword">return</span> <span
+                                    class="code-keyword">await</span> <span
+                                    class="code-string">AI.generateInsights</span>(data)</div>
+                            <div class="code-line"> }</div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">WebRTC-Based Broadcast and Control of Source Devices</h3>
+                        <p class="project-subtitle">Timeline: 2023 | Role: Full-Stack Developer and Team Lead</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Developed a software solution capable of seamlessly receiving and broadcasting video streams
+                            using WebRTC technology. The primary objective was to facilitate the reception of input
+                            video streams from HDMI-CEC compatible source devices, control these source devices, and
+                            deliver the output video stream to viewers through a user-friendly frontend application.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">WebRTC</span>
+                            <span class="tech-tag">Socket.io</span>
+                            <span class="tech-tag">MediaSoup</span>
+                            <span class="tech-tag">FFmpeg</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">AWS EC2</span>
+                            <span class="tech-tag">cec-utils</span>
+                            <span class="tech-tag">Express.js</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-comment">// Key Contributions</span></div>
+                            <div class="code-line"><span class="code-keyword">const</span> contributions = [</div>
+                            <div class="code-line"> <span class="code-string">'WebRTC video streaming'</span>,</div>
+                            <div class="code-line"> <span class="code-string">'HDMI-CEC device control'</span>,</div>
+                            <div class="code-line"> <span class="code-string">'Android & web frontend'</span>,</div>
+                            <div class="code-line"> <span class="code-string">'Real-time broadcasting'</span></div>
+                            <div class="code-line">]</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">OTT Platform</h3>
+                        <p class="project-subtitle">Timeline: 2019-2023 | Role: Full-Stack Developer and Team Lead</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Led development of comprehensive OTT platform with web application and API server.
+                            Responsible for feature development, support and maintenance of API server, video player
+                            implementation using Video.js, and frontend development in PHP and Next.js.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Fastify</span>
+                            <span class="tech-tag">Express.js</span>
+                            <span class="tech-tag">Video.js</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-comment">// Core Responsibilities</span></div>
+                            <div class="code-line"><span class="code-keyword">const</span> responsibilities = {</div>
+                            <div class="code-line"> teamLead: <span class="code-string">true</span>,</div>
+                            <div class="code-line"> apiServer: <span class="code-string">'Full development'</span>,
+                            </div>
+                            <div class="code-line"> videoPlayer: <span class="code-string">'Video.js
+                                    implementation'</span>,</div>
+                            <div class="code-line"> frontend: <span class="code-string">'PHP to Next.js
+                                    migration'</span></div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Video Conferencing, Telemedicine, Classroom, Webinar</h3>
+                        <p class="project-subtitle">Timeline: 2022 | Role: Full-Stack Developer and Team Lead</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Comprehensive video conferencing solution with telemedicine, classroom, and webinar
+                            capabilities. Implemented WebRTC, WebSocket integration with Kurento media server, and
+                            developed both web frontend and desktop application using Electron.js.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">WebRTC</span>
+                            <span class="tech-tag">WebSocket</span>
+                            <span class="tech-tag">Kurento</span>
+                            <span class="tech-tag">CodeIgniter</span>
+                            <span class="tech-tag">Electron.js</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">AWS</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-comment">// Key Features</span></div>
+                            <div class="code-line"><span class="code-keyword">const</span> features = [</div>
+                            <div class="code-line"> <span class="code-string">'WebRTC integration'</span>,</div>
+                            <div class="code-line"> <span class="code-string">'Kurento media server'</span>,</div>
+                            <div class="code-line"> <span class="code-string">'Meeting room management'</span>,</div>
+                            <div class="code-line"> <span class="code-string">'Cross-platform compatibility'</span>
+                            </div>
+                            <div class="code-line">]</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Audio/Video Calling with Real-time Translation</h3>
+                        <p class="project-subtitle">Timeline: 2020 | Role: Full-Stack Developer and Team Lead</p>
+                    </div>
+                    <div class="project-content">
+                        <p>Innovative communication platform featuring real-time audio/video calling with speech
+                            translation to users' language and messaging capabilities. Implemented WebSocket server,
+                            real-time translation using Google Cloud Translation, and comprehensive web application.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">WebRTC</span>
+                            <span class="tech-tag">WebSocket</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Google Cloud</span>
+                            <span class="tech-tag">CodeIgniter</span>
+                            <span class="tech-tag">Electron.js</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">AWS EC2</span>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-line"><span class="code-comment">// Innovation Highlights</span></div>
+                            <div class="code-line"><span class="code-keyword">const</span> innovations = {</div>
+                            <div class="code-line"> realtimeTranslation: <span class="code-string">'Speech to
+                                    text'</span>,</div>
+                            <div class="code-line"> multilingualSupport: <span class="code-string">'Google Cloud
+                                    Translation'</span>,</div>
+                            <div class="code-line"> crossPlatform: <span class="code-string">'Web & Desktop'</span>,
+                            </div>
+                            <div class="code-line"> messaging: <span class="code-string">'Real-time chat'</span></div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <h3 class="experience-title">Senior Software Engineer</h3>
+                    <p class="experience-company">TiCON System Ltd | November 2017 - Present (7+ years)</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Dhaka, Bangladesh</p>
+                    <p style="margin-bottom: 1rem;">Leading full-stack development initiatives, architecting AI-powered
+                        solutions, and mentoring development teams for enterprise clients worldwide.</p>
+
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment">// Key achievements</span></div>
+                        <div class="code-line"><span class="code-keyword">const</span> achievements = {</div>
+                        <div class="code-line"> projectsLed: <span class="code-string">30+</span>,</div>
+                        <div class="code-line"> aiIntegrations: <span class="code-string">'RAG, Vector DB, LLMs'</span>,
+                        </div>
+                        <div class="code-line"> teamMentoring: <span class="code-string">'Junior developers'</span>,
+                        </div>
+                        <div class="code-line"> technologies: [<span class="code-string">'AI/ML'</span>, <span
+                                class="code-string">'Cloud'</span>, <span class="code-string">'WebRTC'</span>]</div>
+                        <div class="code-line">}</div>
+                    </div>
+
+                    <ul style="color: var(--text-secondary); margin-top: 1rem; padding-left: 1.5rem;">
+                        <li>Architected and developed 30+ enterprise applications using cutting-edge technologies</li>
+                        <li>Integrated advanced AI/ML solutions including RAG systems and vector databases</li>
+                        <li>Led technical teams and established coding standards and best practices</li>
+                        <li>Collaborated with international clients for requirement analysis and solution delivery</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="experience-title">Software Engineer</h3>
+                    <p class="experience-company">TigersApp | November 2016 - November 2017 (1 year)</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Mobile and web application development
+                        with focus on performance optimization and user experience enhancement.</p>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="experience-title">Technical Support Engineer</h3>
+                    <p class="experience-company">GMS Technology (UK) Ltd. | March 2014 - September 2015 (1 year 7
+                        months)</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Provided technical support for IP
+                        telephony systems and VOIP products, developing strong problem-solving and client communication
+                        skills.</p>
+
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-comment">// Core responsibilities</span></div>
+                        <div class="code-line"><span class="code-keyword">const</span> responsibilities = [</div>
+                        <div class="code-line"> <span class="code-string">'Complex problem solving'</span>,</div>
+                        <div class="code-line"> <span class="code-string">'IP telephony troubleshooting'</span>,</div>
+                        <div class="code-line"> <span class="code-string">'Customer relationship management'</span>
+                        </div>
+                        <div class="code-line">]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Education & Certifications</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🎓</div>
+                    <h3 class="skill-title">Academic Background</h3>
+                    <p style="color: var(--accent-primary); margin-bottom: 0.5rem;">Master of Science - Chemistry</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Shahjalal University of Science and
+                        Technology (2013-2014)</p>
+                    <p style="color: var(--accent-secondary); margin-bottom: 0.5rem;">Bachelor of Science - Chemistry
+                    </p>
+                    <p style="color: var(--text-secondary);">Shahjalal University of Science and Technology (2009-2013)
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🏆</div>
+                    <h3 class="skill-title">AI/ML Certifications</h3>
+                    <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Introduction to Generative AI</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Foundations of Prompt Engineering</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Introduction to Responsible AI</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Amazon SageMaker JumpStart Foundations</li>
+                        <li>✓ Customizing and Evaluating LLMs Using Amazon SageMaker</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Code the Future Together</h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                Ready to build something extraordinary? Let's connect and create cutting-edge solutions.
+            </p>
+
+            <div class="terminal" style="max-width: 600px; margin: 0 auto 3rem;">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <div class="terminal-button close"></div>
+                        <div class="terminal-button minimize"></div>
+                        <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">contact.sh</div>
+                </div>
+                <div class="terminal-content">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-command">git clone https://github.com/almansur-siddiqui</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="terminal-output">Cloning into 'collaboration'...</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-command">npm install next-level-solutions</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="terminal-output">✓ Ready to build amazing things together!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p style="color: var(--accent-primary); font-family: 'Fira Code', monospace;">
+                        almansursiddiqui@gmail.com</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h3>Phone</h3>
+                    <p style="color: var(--accent-primary); font-family: 'Fira Code', monospace;">+8801917839751</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">💼</div>
+                    <h3>LinkedIn</h3>
+                    <p style="color: var(--accent-secondary); font-family: 'Fira Code', monospace;">
+                        linkedin.com/in/md-almansur-siddiqui</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">🐙</div>
+                    <h3>GitHub</h3>
+                    <p style="color: var(--accent-secondary); font-family: 'Fira Code', monospace;">github.com/jemu51
+                    </p>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a href="mailto:almansursiddiqui@gmail.com" class="btn btn-primary">Send Message</a>
+                <a href="https://linkedin.com/in/md-almansur-siddiqui" class="btn btn-secondary" target="_blank">Connect
+                    on LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Matrix background animation
+        function createMatrix() {
+            const matrixBg = document.getElementById('matrixBg');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+
+            for (let i = 0; i < 20; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                column.style.animationDelay = Math.random() * 10 + 's';
+
+                let text = '';
+                for (let j = 0; j < 20; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                }
+                column.innerHTML = text;
+
+                matrixBg.appendChild(column);
+            }
+        }
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollProgress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrollProgress + '%';
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.stat-card, .skill-card, .project-card, .experience-item, .contact-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Terminal typing effect
+        function typeEffect() {
+            const commands = [
+                'npm run build',
+                'git commit -m "feat: AI integration"',
+                'docker deploy --production',
+                'kubectl apply -f deployment.yaml',
+                'terraform apply'
+            ];
+
+            const terminalLines = document.querySelectorAll('.terminal-line');
+            let currentCommand = 0;
+
+            setInterval(() => {
+                if (terminalLines.length > 0) {
+                    const randomLine = terminalLines[Math.floor(Math.random() * terminalLines.length)];
+                    const commandSpan = randomLine.querySelector('.terminal-command');
+                    if (commandSpan) {
+                        commandSpan.textContent = commands[currentCommand % commands.length];
+                        currentCommand++;
+                    }
+                }
+            }, 3000);
+        }
+
+        // Glitch effect for titles
+        function addGlitchEffect() {
+            const titles = document.querySelectorAll('.section-title, .hero-content h1');
+            titles.forEach(title => {
+                title.addEventListener('mouseenter', () => {
+                    title.style.animation = 'glitch 0.3s ease-in-out';
+                    setTimeout(() => {
+                        title.style.animation = '';
+                    }, 300);
+                });
+            });
+        }
+
+        // Add CSS for glitch animation
+        const glitchCSS = `
+            @keyframes glitch {
+                0%, 100% { transform: translate(0); }
+                20% { transform: translate(-2px, 2px); }
+                40% { transform: translate(-2px, -2px); }
+                60% { transform: translate(2px, 2px); }
+                80% { transform: translate(2px, -2px); }
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = glitchCSS;
+        document.head.appendChild(style);
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            createMatrix();
+            typeEffect();
+            addGlitchEffect();
+        });
+
+        // Add floating code particles
+        function createCodeParticle() {
+            const particles = ['{ }', '< />', '( )', '[ ]', '=>', '===', '!==', '&&', '||'];
+            const particle = document.createElement('div');
+            particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+            particle.style.position = 'fixed';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = '100vh';
+            particle.style.color = 'rgba(0, 255, 136, 0.3)';
+            particle.style.fontFamily = 'Fira Code, monospace';
+            particle.style.fontSize = '12px';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '-1';
+            particle.style.animation = 'float 15s linear infinite';
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 15000);
+        }
+
+        setInterval(createCodeParticle, 2000);
+    </script>
+</body>
+
+</html>
