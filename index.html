@@ -46,10 +46,10 @@
     <link rel="canonical" href="https://jemu51.github.io/">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/jemu51?v=4">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://avatars.githubusercontent.com/jemu51?v=4">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://avatars.githubusercontent.com/jemu51?v=4">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://avatars.githubusercontent.com/jemu51?v=4">
 
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -276,6 +276,20 @@
             padding: 0 2rem;
         }
 
+        .profile-image-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-image {
+            border-radius: 50%;
+            border: 4px solid var(--accent-primary);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
         .hero-content h1 {
             font-size: 3.5rem;
             font-weight: 700;
@@ -286,6 +300,7 @@
             background-clip: text;
             opacity: 0;
             animation: slideInLeft 1s ease-out 0.5s forwards;
+            margin: 0;
         }
 
         .hero-subtitle {
@@ -792,6 +807,12 @@
                 gap: 2rem;
             }
 
+            .profile-image-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -973,12 +994,17 @@
         <section class="hero" id="home" aria-labelledby="hero-title">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <h1 id="hero-title">Md. Almansur Siddiqui</h1>
+                    <div class="profile-image-container">
+                        <img src="https://avatars.githubusercontent.com/jemu51?v=4" alt="Md. Almansur Siddiqui"
+                            class="profile-image" loading="eager" width="200" height="200">
+                        <h1 id="hero-title">Almansur Siddiqui</h1>
+                    </div>
                     <p class="hero-subtitle">Lead Software Engineer - AI & Cloud Solutions</p>
                     <p class="hero-description">
-                        Crafting intelligent systems with over decade of expertise in Full-Stack Development,
-                        AI/ML Engineering, and Cloud Architecture. Specializing in cutting-edge solutions
-                        that transform business challenges into scalable innovations.
+                        With 10+ years in Full-Stack Development, AI/ML, and Cloud Architecture, I build AI systems
+                        using RAG, LLMs, and vector
+                        search to automate workflows, enhance user experiences, and turn complex data into actionable
+                        insights.
                     </p>
                     <div class="btn-group">
                         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -1008,7 +1034,7 @@
                                 <span class="terminal-command">cat experience.txt</span>
                             </div>
                             <div class="terminal-line">
-                                <span class="terminal-output">9+ years | 30+ applications | AI/ML Expert</span>
+                                <span class="terminal-output">10+ years | 30+ applications | AI/ML Expert</span>
                             </div>
                             <div class="terminal-line">
                                 <span class="terminal-prompt">$</span>
